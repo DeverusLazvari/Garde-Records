@@ -1,0 +1,16 @@
+{
+  "name": "deveruslol",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "StyxLazvari(we love styx)((deverus also helped with moral support))(((and edits)))",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "noblox.js": "^4.12.0"
+  }
+}
