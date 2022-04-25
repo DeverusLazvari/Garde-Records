@@ -15,6 +15,7 @@ function addLog(log) {
     // Add timestamp with minutes and seconds
     log = `[${new Date().toLocaleTimeString()}] ${log}`;
     fs.appendFileSync(`./logs/${getTodaysFile()}`, `${log}\n`);
+    console.log(`${log}`);
 }
 
 Object.assign(Log, {
