@@ -1,3 +1,5 @@
 node_modules/
 sensitive_business/
+logs/
 .vs/
+.vscode/
