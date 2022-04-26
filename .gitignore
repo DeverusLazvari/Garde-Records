@@ -3,3 +3,4 @@ sensitive_business/
 logs/
 .vs/
 .vscode/
+deprecated/
