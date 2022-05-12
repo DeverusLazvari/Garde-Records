@@ -21,7 +21,7 @@ async function GetUsersInGroup(groupId) {
     let users = [];
 
     // Fetch roles.
-    const roles = errorFunctions.tryUntilSucceeed(noblox.getRoles(groupId));
+    const roles = await errorFunctions.tryUntilSucceed(noblox.getRoles(groupId));
 
     // Fetch members in the roles.
     for(let role of roles) {
@@ -31,7 +31,7 @@ async function GetUsersInGroup(groupId) {
         }
         
         // Fetch members.
-        let members = errorFunctions.tryUntilSucceeed(noblox.getPlayers(groupId, role.id));
+        let members = errorFunctions.tryUntilSucceed(noblox.getPlayers(groupId, role.id));
 
         // Add members to the users.
         for(let member of members) {
@@ -133,7 +133,7 @@ async function ScanForChanges() {
         Database.updateUser(user.userId, 'rank', 0);
 
         //Update user's rank in empire francais to 1
-        errorFunctions.tryUntilSucceeed(noblox.setRank(empireFrancais,user.userId,1));
+        errorFunctions.tryUntilSucceed(noblox.setRank(empireFrancais,user.userId,1));
         log.addLog(`[Rank Update] Updated ${user.username}'s rank to Citoyen.`)
 
         // Update any listeners.
