@@ -4,6 +4,7 @@ import noblox from "noblox.js";
 import User from "./User.js";
 import Log from "./Log.js";
 import errorFunctions from "./ErrorHandling.js";
+import TOKENS from "./sensitive_business/tokens.js";
 
 const Roblox = {
     empireFrancais: 5610765,
@@ -21,7 +22,7 @@ async function GetUsersInGroup(groupId) {
     let users = [];
 
     // Fetch roles.
-    const roles = await errorFunctions.tryUntilSucceed(noblox.getRoles(groupId));
+    const roles = await errorFunctions.tryUntilSucceed(() => noblox.getRoles(groupId));
 
     // Fetch members in the roles.
     for(let role of roles) {
@@ -31,7 +32,7 @@ async function GetUsersInGroup(groupId) {
         }
         
         // Fetch members.
-        let members = errorFunctions.tryUntilSucceed(noblox.getPlayers(groupId, role.id));
+        let members = await errorFunctions.tryUntilSucceed(() => noblox.getPlayers(groupId, role.id));
 
         // Add members to the users.
         for(let member of members) {
@@ -61,6 +62,9 @@ async function ScanForChanges() {
     const leftText = [];
     const auditedUsers = {};
 
+    //Log in with our token
+    await errorFunctions.tryUntilSucceed(() => noblox.setCookie(TOKENS.robloxSecurityKey));
+
     // Loop through all current users.
     for(let user of currentUsers) {
         auditedUsers[user.userId] = true;
@@ -78,10 +82,11 @@ async function ScanForChanges() {
             UserStatusChanged.emit('newUser', user);
 
             Database.addUser(user);
+            let rank  = await errorFunctions.tryUntilSucceed(() => noblox.getRankInGroup(Roblox.empireFrancais,user.userId));
 
             //check rank and update if possible
-            if(user.rank == 1){
-                errorFunctions.tryUntilSucceed(noblox.setRank(empireFrancais,user.userId,3));
+            if(user.rank == 1 && rank != 3 && rank != 0 && rank <= 16){
+                await errorFunctions.tryUntilSucceed(() => noblox.setRank(Roblox.empireFrancais,user.userId,3));
                 Log.addLog(`[Rank Update] Updated user ${user.username} to Soldat.`);
             } 
             
@@ -132,9 +137,13 @@ async function ScanForChanges() {
         // Update the users rank to 0.
         Database.updateUser(user.userId, 'rank', 0);
 
+        let rank = errorFunctions.tryUntilSucceed(() => noblox.getRankInGroup(Roblox.empireFrancais,user.userId));
+
         //Update user's rank in empire francais to 1
-        errorFunctions.tryUntilSucceed(noblox.setRank(empireFrancais,user.userId,1));
-        log.addLog(`[Rank Update] Updated ${user.username}'s rank to Citoyen.`)
+        if(rank != 1 && rank != 0 && rank <= 16){
+            await errorFunctions.tryUntilSucceed(() => noblox.setRank(Roblox.empireFrancais,user.userId,1));
+            Log.addLog(`[Rank Update] Updated ${user.username}'s rank to Citoyen.`);
+        }
 
         // Update any listeners.
         UserStatusChanged.emit('userLeft', user);
