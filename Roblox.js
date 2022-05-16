@@ -123,7 +123,7 @@ async function ScanForChanges() {
     let unauditedUsers = [];
     let keys = Object.keys(Database.users);
     for(let key of keys) {
-        if(!auditedUsers[key]) {
+        if(!auditedUsers[key] && Database.users[key].rank != 0) {
             unauditedUsers.push(Database.users[key]);
         }
     }
