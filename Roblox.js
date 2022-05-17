@@ -4,6 +4,7 @@ import noblox from "noblox.js";
 import User from "./User.js";
 import Log from "./Log.js";
 import errorFunctions from "./ErrorHandling.js";
+import Discord from "./Discord.js";
 import TOKENS from "./sensitive_business/tokens.js";
 
 const Roblox = {
@@ -131,9 +132,15 @@ async function ScanForChanges() {
     // Loop through all unaudited users.
     for(let user of unauditedUsers) {
         let leftMessage = `${user.username} has left the group`;
-        leftText.push(leftMessage);
         Log.addLog(`[Roblox] ${leftMessage}`);
 
+        //Build formatted left messages, sort by rank.
+        let formattedLeftMessage = `> **${user.username}** has left the group.\n`
+        if(leftText[user.rank] == undefined){
+            leftText[user.rank] = [user.rankName];
+        }
+        leftText[user.rank].push(formattedLeftMessage);
+        
         // Update the users rank to 0.
         Database.updateUser(user.userId, 'rank', 0);
 
@@ -147,6 +154,29 @@ async function ScanForChanges() {
 
         // Update any listeners.
         UserStatusChanged.emit('userLeft', user);
+    }
+    
+    //Build discord message
+    let outputMessage = '';
+    for(let rank in leftText){
+        outputMessage = `${outputMessage}__**${leftText[rank][0]}**__\n`;
+        for(let message of leftText[rank]){
+            if(message == leftText[rank][0]){continue;}
+            outputMessage = `${outputMessage}${message}`;
+        }
+        outputMessage = `${outputMessage}\n`;
+    }
+    outputMessage = `${outputMessage}<:businessmarcus:893869809295556628>`;
+    
+    //Send output message to discord
+    let channelId = '955127605315633222';
+
+    if(await Discord.loginStatus() == true){
+        await Discord.sendMessage(channelId,outputMessage);
+    }
+    else{
+        await Discord.login();
+        await Discord.sendMessage(channelId,outputMessage);
     }
 }
 

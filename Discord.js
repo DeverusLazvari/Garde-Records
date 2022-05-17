@@ -19,7 +19,13 @@ async function destroy(){   //Destroys the client, terminating its connection
 async function sendMessage(channelId,messageToSend){  //Send message to provided channel Id.
     const channelToSend = await client.channels.fetch(channelId);
     await Log.addLog(`[Discord] Created channel object ${channelToSend.name}`);
+
     await channelToSend.send(messageToSend);
+    await Log.addLog(`[Discord] sent message to channel object ${channelToSend.name}`);
+}
+
+async function loginStatus(){
+    return client.isReady();
 }
 
 const Discord = {};
@@ -28,4 +34,7 @@ Object.assign(Discord, {
     login,
     destroy,
     sendMessage,
+    loginStatus,
 });
+
+export default Discord;

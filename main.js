@@ -1,8 +1,17 @@
 import Database from "./Database.js";
 import Roblox from "./Roblox.js";
+import Discord from "./Discord.js";
 
-await Database.fetchData();
+function loopRun(){
+    await Discord.login();
 
-await Roblox.ScanForChanges();
+    await Database.fetchData();
+    
+    await Roblox.ScanForChanges();
+    
+    await Database.saveData();
 
-await Database.saveData();
+    setTimeout(loopRun, 14400000);
+}
+
+loopRun();
