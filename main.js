@@ -2,7 +2,7 @@ import Database from "./Database.js";
 import Roblox from "./Roblox.js";
 import Discord from "./Discord.js";
 
-function loopRun(){
+async function loopRun(){
     await Discord.login();
 
     await Database.fetchData();

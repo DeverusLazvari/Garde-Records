@@ -4,4 +4,4 @@ logs/
 .vs/
 .vscode/
 deprecated/
-startup.bat
+start.vbs
