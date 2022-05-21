@@ -19,7 +19,8 @@ async function tryUntilSucceed(promiseFn) {
 }
 
 Object.assign(errorFunctions, {
-    tryUntilSucceed
+    tryUntilSucceed,
+    sleep,
 })
 
 export default errorFunctions;
