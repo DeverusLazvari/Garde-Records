@@ -1,7 +1,7 @@
 import Database from "./Database.js";
 import Roblox from "./Roblox.js";
 import Discord from "./Discord.js";
-import errorFunctions from "./ErrorHandling";
+import errorFunctions from "./ErrorHandling.js";
 
 //await errorFunctions.sleep(120000)
 
