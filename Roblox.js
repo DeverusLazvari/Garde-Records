@@ -160,6 +160,15 @@ async function ScanForChanges() {
     let outputMessage = '';
     for(let rank in leftText){
         outputMessage = `${outputMessage}__**${leftText[rank][0]}**__\n`;
+        if(leftText[rank][0] == "Jeune Garde"){
+            outputMessage = `${outputMessage}<@&954826600346689636>\n`;
+        }
+        else if(leftText[rank][0] == "Moyenne Garde"){
+            outputMessage = `${outputMessage}<@&954826296326754394>\n`;
+        }
+        else if(leftText[rank][0] == "Vieille Garde"){
+            outputMessage = `${outputMessage}<@&954826747810054174>\n`;
+        }
         for(let message of leftText[rank]){
             if(message == leftText[rank][0]){continue;}
             outputMessage = `${outputMessage}${message}`;
