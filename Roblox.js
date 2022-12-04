@@ -144,10 +144,10 @@ async function ScanForChanges() {
         // Update the users rank to 0.
         Database.updateUser(user.userId, 'rank', 0);
 
-        let rank = errorFunctions.tryUntilSucceed(() => noblox.getRankInGroup(Roblox.empireFrancais,user.userId));
+        let rank = await errorFunctions.tryUntilSucceed(() => noblox.getRankInGroup(Roblox.empireFrancais,user.userId));
 
         //Update user's rank in empire francais to 1
-        if(rank != 1 && rank != 0 && rank <= 16){
+        if(rank > 1 && rank <= 16){
             await errorFunctions.tryUntilSucceed(() => noblox.setRank(Roblox.empireFrancais,user.userId,1));
             Log.addLog(`[Rank Update] Updated ${user.username}'s rank to Citoyen.`);
         }
