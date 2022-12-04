@@ -19,7 +19,7 @@ else{
 //Get active client value
 const client = Discord.getClient();
 
-//Get guild and track members joined
+//Get guild and track members joined, message new members.
 client.on('guildMemberAdd', member => {
        const sendChannelId = member.dmChannel.id;
        Discord.sendMessage(sendChannelId,"Test");

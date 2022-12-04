@@ -28,6 +28,10 @@ async function loginStatus(){
     return client.isReady();
 }
 
+function getClient(){
+    return client
+}
+
 const Discord = {};
 
 Object.assign(Discord, {
@@ -35,6 +39,7 @@ Object.assign(Discord, {
     destroy,
     sendMessage,
     loginStatus,
+    getClient,
 });
 
 export default Discord;
