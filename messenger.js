@@ -7,21 +7,32 @@ import errorFunctions from "./ErrorHandling.js";
 import Discord from "./Discord.js";
 import TOKENS from "./sensitive_business/tokens.js";
 
-//Check discord login status
-if(await Discord.loginStatus() == true){
-    await Discord.sendMessage(channelId,outputMessage);
-}
-else{
-    await Discord.login();
-    await Discord.sendMessage(channelId,outputMessage);
-}
+async function messageNewMembers() {
 
-//Get active client value
-const client = Discord.getClient();
-
-//Get guild and track members joined, message new members.
-client.on('guildMemberAdd', member => {
-       const sendChannelId = member.dmChannel.id;
-       Discord.sendMessage(sendChannelId,"Test");
+    //Check discord login status
+    if(await Discord.loginStatus() == false){
+        await Discord.login();
     }
-)
+
+    //Get active client value
+    const client = Discord.getClient();
+
+    console.log(client.user.username);
+
+    //Get guild and track members joined, message new members.
+    client.on('guildMemberAdd', member => {
+        console.log("Member joined.");
+
+        member.send("Test!");
+     }
+    );
+
+}
+
+const RecruitmentService = {};
+
+Object.assign(RecruitmentService, {
+    messageNewMembers,
+});
+
+export default RecruitmentService;

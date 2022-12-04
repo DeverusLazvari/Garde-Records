@@ -29,7 +29,8 @@ async function loginStatus(){
 }
 
 function getClient(){
-    return client
+    console.log("Called");
+    return client;
 }
 
 const Discord = {};
