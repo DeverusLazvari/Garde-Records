@@ -1,7 +1,7 @@
 import {Client, Intents} from 'discord.js'
 import TOKENS from './sensitive_business/tokens.js'
 import Log from './Log.js'
-const client = new Client({intents:[Intents.FLAGS.GUILDS]});
+const client = new Client({intents:[Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS]});
 
 async function login(){ //Login to discord bot using the provided credentials
     let credentials = TOKENS.discordToken;
@@ -29,7 +29,6 @@ async function loginStatus(){
 }
 
 function getClient(){
-    console.log("Called");
     return client;
 }
 
