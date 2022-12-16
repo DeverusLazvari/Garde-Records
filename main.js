@@ -12,7 +12,14 @@ import Roblox from "./Roblox.js"
 //await errorFunctions.sleep(120000)
 
 async function loopRun(){
-    await errorFunctions.tryUntilSucceed(() => Discord.login());
+    const loginStatus = Discord.loginStatus();
+    const client = Discord.getClient();
+
+    if (loginStatus == false){
+        await errorFunctions.tryUntilSucceed(() => Discord.login());
+    } 
+
+    await client.once("ready", () => Log.addLog("[Recruitment] Recruitment Service ready to proceed."));
 
     RecruitmentService.messageNewMembers();
 

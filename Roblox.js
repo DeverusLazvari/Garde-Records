@@ -86,7 +86,7 @@ async function ScanForChanges() {
             let rank  = await errorFunctions.tryUntilSucceed(() => noblox.getRankInGroup(Roblox.empireFrancais,user.userId));
 
             //check rank and update if possible
-            if(user.rank == 1 && rank != 3 && rank != 0 && rank <= 16){
+            if(user.rank == 3 && rank != 1 && rank != 0 && rank <= 16){
                 await errorFunctions.tryUntilSucceed(() => noblox.setRank(Roblox.empireFrancais,user.userId,3));
                 Log.addLog(`[Rank Update] Updated user ${user.username} to Soldat.`);
             } 
@@ -175,7 +175,7 @@ async function ScanForChanges() {
         }
         outputMessage = `${outputMessage}\n`;
     }
-    outputMessage = `${outputMessage}<:businessmarcus:893869809295556628>`;
+    outputMessage = `${outputMessage}<:sunglassesmarcus:1049361989744476211>`;
     
     //Send output message to discord
     let channelId = '955127605315633222';
