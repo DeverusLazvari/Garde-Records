@@ -12,14 +12,11 @@ import Roblox from "./Roblox.js"
 //await errorFunctions.sleep(120000)
 
 async function loopRun(){
-    const loginStatus = Discord.loginStatus();
+    
+     await Discord.login();
+
     const client = Discord.getClient();
-
-    if (loginStatus == false){
-        await errorFunctions.tryUntilSucceed(() => Discord.login());
-    } 
-
-    await client.once("ready", () => Log.addLog("[Recruitment] Recruitment Service ready to proceed."));
+    await client.once("ready", () => Log.addLog("[Main] Functions proceeding."));
 
     RecruitmentService.messageNewMembers();
 
@@ -29,7 +26,7 @@ async function loopRun(){
     
     await Database.saveData();
 
-    setTimeout(loopRun, 14400000);
+    setTimeout(loopRun, 500);
 }
 
 loopRun();

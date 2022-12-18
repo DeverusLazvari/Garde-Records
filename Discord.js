@@ -5,9 +5,17 @@ const client = new Client({intents:[Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_ME
 
 async function login(){ //Login to discord bot using the provided credentials
     let credentials = TOKENS.discordToken;
-    await client.login(credentials);
 
+    console.log(`Client received login call. ${client.isReady()}`);
+    if(await client.isReady() == false){
+    await client.login(credentials);
     Log.addLog(`[Discord] Logged into client ${client.user.username}`);
+    }
+    else{
+        Log.addLog("[Discord] Received login request, but client is already active.");
+    }
+
+    
 }
 
 async function destroy(){   //Destroys the client, terminating its connection
