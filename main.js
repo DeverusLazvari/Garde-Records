@@ -26,7 +26,7 @@ async function loopRun(){
     
     await Database.saveData();
 
-    setTimeout(loopRun, 500);
+    setTimeout(loopRun, 14400000);
 }
 
 loopRun();
