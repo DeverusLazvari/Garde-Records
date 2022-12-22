@@ -23,17 +23,34 @@ async function messageNewMembers() {
 
     //Get guild and track members joined, message new members.
     client.on('guildMemberAdd', member => {
+        
+        //message failed variable for check later
+        const sendFailed = false;
 
-        //Send welcome message
-        member.send({files: [firstImage]});
-        member.send("> Hello, and welcome to the discord server and home of the best and most capable fighting force in the Napoleonic Wars, the **Garde Impériale**!\n> \n> The Garde is a unique fighting force that prides itself in upholding tradition while maintaining a strict standard of competence and capability, where only the best continue to move forward and achieve the Garde's highest honours!");
-        member.send({files: [secondImage]});
-        member.send("> As a member of the Garde, you can expect a fresh beginning where your perseverance and ambitions to move on are recognized and valued, with ample opportunity for advancement!\n> \n> Above all, however, the Garde Impériale is a tight-knit community where every member is valued as a part of our brotherhood, where community events are hosted frequently and during off-hours there are plenty of folks to talk to!");
-        member.send({files: [thirdImage]});
-        member.send("> If you find yourself up for the task, and think you're up to the challenge, look no further! Head down to <#964636410692927518> and make your mark!\n> \n> <:marcus:893869808121159722>")
+        //Send first message
+        member.send({files: [firstImage]})
+        .catch((error) => {
 
-        //Log welcome message.
-        Log.addLog(`[Recruitment] Sent recruitment message to ${member.user.username} from the Garde Imperiale Discord.`)
+            //if first image failed, log it and declare that sendfailed was false to avoid redundant sending of further messages
+            sendFailed = true;
+            Log.addLog(`[Recruitment] Could not send message to ${member.user.username}. User likely does not accept messages.`)
+
+        });
+
+        //if first message did not fail, send the rest of them
+        if(sendFailed == false){
+
+            member.send("> Hello, and welcome to the discord server and home of the best and most capable fighting force in the Napoleonic Wars, the **Garde Impériale**!\n> \n> The Garde is a unique fighting force that prides itself in upholding tradition while maintaining a strict standard of competence and capability, where only the best continue to move forward and achieve the Garde's highest honours!");
+            member.send({files: [secondImage]});
+            member.send("> As a member of the Garde, you can expect a fresh beginning where your perseverance and ambitions to move on are recognized and valued, with ample opportunity for advancement!\n> \n> Above all, however, the Garde Impériale is a tight-knit community where every member is valued as a part of our brotherhood, where community events are hosted frequently and during off-hours there are plenty of folks to talk to!");
+            member.send({files: [thirdImage]});
+            member.send("> If you find yourself up for the task, and think you're up to the challenge, look no further! Head down to <#964636410692927518> and make your mark!\n> \n> <:marcus:893869808121159722>");
+
+            //Log welcome message.
+            Log.addLog(`[Recruitment] Sent recruitment message to ${member.user.username} from the Garde Imperiale Discord.`);
+        };
+    
+
      }
     );
 
